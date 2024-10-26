@@ -1,0 +1,26 @@
+{
+  "name": "gobarber",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node-dev --inspect --respawn --transpile-only --ignore-watch node_modules src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
+    "@types/express": "^5.0.0",
+    "eslint": "^8.57.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "express": "^4.21.1",
+    "uuidv4": "^6.2.13"
+  }
+}
