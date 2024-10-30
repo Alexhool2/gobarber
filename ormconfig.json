@@ -2,8 +2,13 @@
   "type": "postgres",
   "host": "localhost",
   "port": 5432,
-  "username":"docker",
-  "password":"alex210489",
-  "database":"gostack_gobarber"
+  "username": "postgres",
+  "password": "alex210489",
+  "database": "gobarber",
+  "entities": ["src/models/*.ts"],
+  "migrations": ["src/database/migrations/*.ts"],
+  "cli": {
+    "entitiesDir": "src/models",
+    "migrationsDir": "src/database/migrations"
+  }
 }
-

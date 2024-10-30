@@ -1,31 +1,31 @@
+import 'reflect-metadata'
 import { startOfHour } from 'date-fns'
 import Appointment from '../models/Appointment'
-import AppointmentsRepository from '../repositories/AppointmentsRepository'
+import { appointmentRepository } from '../repositories/AppointmentsRepository'
+
 interface Request {
   provider: string
   date: Date
 }
 
 class CreateAppointmentService {
-  private appointmentsRepository: AppointmentsRepository
-  constructor(appointmentsRepository: AppointmentsRepository) {
-    this.appointmentsRepository = appointmentsRepository
-  }
-
-  public execute({ provider, date }: Request): Appointment {
+  public async execute({ date, provider }: Request): Promise<Appointment> {
     const appointmentDate = startOfHour(date)
 
     const findAppointmentInSameDate =
-      this.appointmentsRepository.findByDate(appointmentDate)
+      await appointmentRepository.findByDate(appointmentDate)
 
     if (findAppointmentInSameDate) {
-      throw Error('This appointment is already booked')
+      throw new Error('This appointment is already booked')
     }
 
-    const appointment = this.appointmentsRepository.create({
+    const appointment = appointmentRepository.create({
       provider,
       date: appointmentDate,
     })
+
+    await appointmentRepository.save(appointment)
+
     return appointment
   }
 }

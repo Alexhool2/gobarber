@@ -1,27 +1,27 @@
+import 'reflect-metadata'
 import { Router } from 'express'
 import { parseISO } from 'date-fns'
-import AppointmentsRepository from '../repositories/AppointmentsRepository'
+import { appointmentRepository } from '../repositories/AppointmentsRepository'
 import CreateAppointmentService from '../services/CreateAppointmentService'
 
 const appointmentsRouter = Router()
 
-const appointmentRepository = new AppointmentsRepository()
-
-appointmentsRouter.get('/', (request, response) => {
-  const appointments = appointmentRepository.all()
-  response.json(appointments)
+appointmentsRouter.get('/', async (request, response) => {
+  try {
+    const appointments = await appointmentRepository.getAllAppointments()
+    response.json(appointments)
+  } catch (error) {
+    response.status(500).json({ error: 'Failed to fetch appointment' })
+  }
 })
-
-appointmentsRouter.post('/', (request, response) => {
+appointmentsRouter.post('/', async (request, response) => {
   try {
     const { provider, date } = request.body
 
     const parsedDate = parseISO(date)
-    const createAppointment = new CreateAppointmentService(
-      appointmentRepository,
-    )
+    const createAppointment = new CreateAppointmentService()
 
-    const appointment = createAppointment.execute({
+    const appointment = await createAppointment.execute({
       date: parsedDate,
       provider,
     })
