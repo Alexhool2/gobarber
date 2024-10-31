@@ -1,4 +1,4 @@
-import 'reflect-metadata'
+/* eslint-disable camelcase */
 import { Router } from 'express'
 import { parseISO } from 'date-fns'
 import { appointmentRepository } from '../repositories/AppointmentsRepository'
@@ -16,14 +16,14 @@ appointmentsRouter.get('/', async (request, response) => {
 })
 appointmentsRouter.post('/', async (request, response) => {
   try {
-    const { provider, date } = request.body
+    const { provider_id, date } = request.body
 
     const parsedDate = parseISO(date)
     const createAppointment = new CreateAppointmentService()
 
     const appointment = await createAppointment.execute({
       date: parsedDate,
-      provider,
+      provider_id,
     })
 
     response.json(appointment)

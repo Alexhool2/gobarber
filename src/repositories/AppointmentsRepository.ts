@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import Appointment from '../models/Appointment'
 import { AppDataSource } from '../database/data-source'
 
