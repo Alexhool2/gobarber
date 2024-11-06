@@ -2,6 +2,7 @@
 import { startOfHour } from 'date-fns'
 import Appointment from '../models/Appointment'
 import { appointmentRepository } from '../repositories/AppointmentsRepository'
+import AppError from '../errors/AppError'
 
 interface Request {
   provider_id: string
@@ -16,7 +17,7 @@ class CreateAppointmentService {
       await appointmentRepository.findByDate(appointmentDate)
 
     if (findAppointmentInSameDate) {
-      throw new Error('This appointment is already booked')
+      throw new AppError('This appointment is already booked')
     }
 
     const appointment = appointmentRepository.create({

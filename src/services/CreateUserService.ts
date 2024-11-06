@@ -1,4 +1,5 @@
 import { AppDataSource } from '../database/data-source'
+import AppError from '../errors/AppError'
 import User from '../models/User'
 import { hash } from 'bcryptjs'
 
@@ -16,7 +17,7 @@ class CreateUserService {
       where: { email },
     })
     if (checkUserExists) {
-      throw new Error('Email address already used')
+      throw new AppError('Email address already used')
     }
     const hashedPassword = await hash(password, 8)
     const user = userRepository.create({

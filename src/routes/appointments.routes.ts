@@ -10,29 +10,21 @@ const appointmentsRouter = Router()
 appointmentsRouter.use(ensureAuthenticated)
 
 appointmentsRouter.get('/', async (request, response) => {
-  try {
-    const appointments = await appointmentRepository.getAllAppointments()
-    response.json(appointments)
-  } catch (error) {
-    response.status(500).json({ error: 'Failed to fetch appointment' })
-  }
+  const appointments = await appointmentRepository.getAllAppointments()
+  response.json(appointments)
 })
 appointmentsRouter.post('/', async (request, response) => {
-  try {
-    const { provider_id, date } = request.body
+  const { provider_id, date } = request.body
 
-    const parsedDate = parseISO(date)
-    const createAppointment = new CreateAppointmentService()
+  const parsedDate = parseISO(date)
+  const createAppointment = new CreateAppointmentService()
 
-    const appointment = await createAppointment.execute({
-      date: parsedDate,
-      provider_id,
-    })
+  const appointment = await createAppointment.execute({
+    date: parsedDate,
+    provider_id,
+  })
 
-    response.json(appointment)
-  } catch (err) {
-    response.status(400).json({ error: (err as Error).message })
-  }
+  response.json(appointment)
 })
 
 export default appointmentsRouter
